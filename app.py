@@ -207,16 +207,12 @@ def create():
 
 
 
-@app.route("/saved", methods=["GET", "POST"])
+@app.route("/saved")
 @login_required
 def saved():
-    if request.method == "GET":
+    plan_name_and_description_dict = db.execute("SELECT plan_name, description FROM plans WHERE user_id = ?", session['user_id'])
+    return render_template("saved.html", plans=plan_name_and_description_dict)
 
-        plan_name_and_description_dict = db.execute("SELECT plan_name, description FROM plans WHERE user_id = ?", session['user_id'])
-        return render_template("saved.html", plans=plan_name_and_description_dict)
-    
-    else:
-        pass
 
 @app.route("/generated")
 @login_required
